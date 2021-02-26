@@ -13,12 +13,13 @@ def detail_page(url, word, log):
         file = requests.get(url, timeout=5)
         data = file.content.decode('utf-8')
         #print(data)
-        pos = data.find(word)
-        #print(pos)
-        if pos != -1:
-            with open(log, 'a') as f:
-                f.write(url)
-                f.write('\n')
+        for wd in word:
+            pos = data.find(wd)
+            if pos != -1:
+                with open(log, 'a') as f:
+                    f.write(url)
+                    f.write('\n')
+                return 0
         return 0
     except Exception as r:
         print(r)
@@ -57,9 +58,10 @@ def run(start, end, word, log):
         i = i + 1
         
 if __name__ == "__main__":
-    word = sys.argv[1].decode('gbk')
+    word = sys.argv[1].decode('gbk').split('|')
     total = int(sys.argv[2])
     log = sys.argv[3]
+    print(word)
     
     ts = []
     if len(sys.argv) < 3:
